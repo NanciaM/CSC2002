@@ -122,7 +122,7 @@ public class ParallelGrid extends RecursiveTask<Boolean> {
 	}
     public boolean update() {
         ForkJoinPool pool = new ForkJoinPool();
-        ParallelGrid task = new ParallelGrid(this, 1, rows - 1);
+        ParallelGrid task = new ParallelGrid(grid, 1, rows - 1);
         boolean changed = pool.invoke(task);
         nextTimeStep();
         return changed;
