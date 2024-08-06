@@ -1,0 +1,55 @@
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 90 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 40 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 43 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 43 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 41 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 40 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 50 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 49 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 44 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 41 ms
+
+
+this was run on senior lab computer 
+
+
