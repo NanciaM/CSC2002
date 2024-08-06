@@ -46,7 +46,7 @@ public class ParallelGrid extends RecursiveTask<Boolean> {
 		}
 		
 	}
-	public ParallelGrid(pGrid copyGrid) {
+	public ParallelGrid(ParallelGrid copyGrid) {
 		this(copyGrid.rows,copyGrid.columns); //call constructor above
 		/* ParallelGrid  initialization */
 		for(int i=0; i<rows; i++ ) {
