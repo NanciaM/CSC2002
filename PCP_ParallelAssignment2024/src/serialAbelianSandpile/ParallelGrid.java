@@ -11,14 +11,14 @@ import java.util.concurrent.RecursiveTask;
 
 //This class is for the ParallelGrid for the Abelian Sandpile cellular automaton
 public class ParallelGrid extends RecursiveTask<Boolean> {
-	private int rows, columns, startRow;
+	public int rows, columns, startRow;
 	public Grid grid;
-	private int [][] pGrid; //ParallelGrid 
+	public int [][] pGrid; //ParallelGrid 
 	private int [][] updatePGrid;//ParallelGrid for next time step
 
     public ParallelGrid(Grid grid, int startR, int endR) {
         this.grid = grid;
-        this.startR = startRow;
+        this.startRow = startR;
         this.rows = endR+2 ;
     }
     
@@ -89,10 +89,9 @@ public class ParallelGrid extends RecursiveTask<Boolean> {
 	
 	//key method to calculate the next update grod
 	protected Boolean compute() {
-		
+		boolean change=false;
 		//do not update border
         if((rows) <=30 && (columns) <=30) { // 30 is Small enough cutoff task to compute directly
-            boolean change=false;
 
             for( int i = 1; i<rows-1; i++ ) {
                 for( int j = 1; j<columns-1; j++ ) {
