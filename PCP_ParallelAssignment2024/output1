@@ -50,6 +50,35 @@ Number of steps to stable state: 1156
 Time: 41 ms
 
 
-this was run on senior lab computer 
+The following was run using ParallelGrid1 on nightmare
 
-
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 750 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 430 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 465 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 868 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 808 ms
+java -classpath bin serialAbelianSandpile.AutomatonSimulation input/65_by_65_all_4.csv output/65_by_65_all_4.png  
+Rows: 65, Columns: 65
+Simulation complete, writing image...
+Number of steps to stable state: 1156 
+Time: 1347 ms
