@@ -68,6 +68,7 @@ class AutomatonSimulation{
     
     	// Read from input .csv file
     	simulationGrid = new Grid(readArrayFromCSV(inputFileName));
+		ParallelUpdate pSimulationGrid = new ParallelUpdate(simulationGrid, 0, simulationGrid.getRows());
     	
     	//for debugging - hardcoded re-initialisation options
     	//simulationGrid.set(rows/2,columns/2,rows*columns*2);
@@ -81,7 +82,7 @@ class AutomatonSimulation{
     		System.out.printf("starting config: %d \n",counter);
     		simulationGrid.printGrid();
     	}
-		while(simulationGrid.update()) {//run until no change
+		while(psimulationGrid.update()) {//run until no change
 	    		if(DEBUG) simulationGrid.printGrid();
 	    		counter++;
 	    	}
