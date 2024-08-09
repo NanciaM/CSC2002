@@ -18,8 +18,8 @@ public class ParallelGrid extends RecursiveTask<Boolean> {
 
     public ParallelGrid(Grid grid, int startR, int endR) {
         this.grid = grid;
-        this.startRow = startR;
-        this.rows = endR+2 ;
+        
+        this.rows = endR+2;
     }
     
 	public ParallelGrid(int w, int h) {
@@ -108,10 +108,10 @@ public class ParallelGrid extends RecursiveTask<Boolean> {
         }
         else{
             int rowSplit=(int) (rows/2.0);
-            int columnSplit=(int) (columns/2.0);
+            int offset = 0;
 		    		//split work into two
-		    		ParallelGrid left = new ParallelGrid(rowSplit,columnSplit);  //first half
-		    		ParallelGrid right= new ParallelGrid(rows-rowSplit,columns-columnSplit); //second half
+		    		ParallelGrid left = new ParallelGrid(rowSplit, offset);  //first half
+		    		ParallelGrid right= new ParallelGrid(rows-rowSplit,rowSplit+offset); //second half
 		    		left.fork(); //give first half to new threas
 
 		    	    right.compute(); //do second half in this thread	
