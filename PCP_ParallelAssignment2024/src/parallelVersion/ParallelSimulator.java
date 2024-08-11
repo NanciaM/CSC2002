@@ -1,4 +1,4 @@
-package parallelAbelianSandpile;
+package parallelVersion;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,7 +12,6 @@ import java.util.concurrent.ForkJoinPool;
  * developed by Bu\:cker, Casanova and Da Silva  (∗Institute for Computer Science, Friedrich Schiller University Jena, Jena, Germany)
  */
  
- import parallelAbelianSandpile.Grid;
 
  public class ParallelSimulator {
     static final boolean DEBUG = false; // for debugging output, off
@@ -28,8 +27,9 @@ import java.util.concurrent.ForkJoinPool;
     private static void tock() { // end timing
         endTime = System.currentTimeMillis();
     }
-	//input is via a CSV file
-	 public static int[][] readArrayFromCSV(String filePath) {
+
+    // input is via a CSV file
+    public static int[][] readArrayFromCSV(String filePath) {
         int[][] array = null;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine();
@@ -55,17 +55,8 @@ import java.util.concurrent.ForkJoinPool;
             e.printStackTrace();
         }
         return array;
-	}
-
-	public static boolean updateGrid(Grid grid, ForkJoinPool pool) {
-        ParallelUpdate task = new ParallelUpdate(grid, 1, grid.getRows() + 1);
-        boolean change = pool.invoke(task);
-        if (change) {
-            grid.nextTimeStep();
-        }
-        return change;
     }
-	 
+
     public static void main(String[] args) throws IOException {
 
         Grid simulationGrid; // the cellular automaton grid
@@ -90,7 +81,7 @@ import java.util.concurrent.ForkJoinPool;
 
         ForkJoinPool pool = new ForkJoinPool();
 
-        while (updateGrid(simulationGrid, pool)) { // run until no change
+        while (simulationGrid.update(pool)) {
             if (DEBUG)
                 simulationGrid.printGrid();
             counter++;

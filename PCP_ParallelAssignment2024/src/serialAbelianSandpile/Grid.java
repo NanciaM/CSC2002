@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 public class Grid {
 	private int rows, columns;
 	private int [][] grid; //grid 
-	private int [][] updateGrid;//grid for next time step
+	protected int [][] updateGrid;//grid for next time step
     
 	public Grid(int w, int h) {
 		rows = w+2; //for the "sink" border
