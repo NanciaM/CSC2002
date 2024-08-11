@@ -11,55 +11,63 @@ import java.util.concurrent.RecursiveTask;
 
 //This class is for the ParallelGrid for the Abelian Sandpile cellular automaton
 public class ParallelUpdate extends RecursiveTask<Boolean> {
-	public int rows, columns, startRow;
-	public Grid grid; //ParallelGrid 
-	 
+	private int rows, columns;
+	public int [][] grid; //grid 
+	public int [][] updateGrid;//grid for next time step
 
-    public ParallelUpdate(Grid grid, int startR, int endR) {
-        this.grid = grid;
-        this.startR = startRow;
-        this.rows = endR+2 ;
-    }
+	public ParallelUpdate(int[][] grid, int startRow, int endRow) {
+		
+		this.rows = (endRow - startRow) + 2; // +2 for the sink borders
+		this.columns = grid[0].length + 2; // +2 for the sink borders
+	
+		this.grid = new int[this.rows][this.columns];
+		this.updateGrid = new int[this.rows][this.columns];
+		for (int i = 1; i < this.rows - 1; i++) {
+			for (int j = 1; j < this.columns - 1; j++) {
+				this.grid[i][j] = grid[startRow + i - 1][j - 1];
+			}
+		}
+	}
   
 	
-	//key method to calculate the next update grod
 	protected Boolean compute() {
-		
+		boolean change=false;
 		//do not update border
-        if((rows) <=65) { // 65 is Small enough cutoff task to compute directly
-            boolean change=false;
+        if((rows) <=30 ) { // 30 is Small enough cutoff task to compute directly
 
             for( int i = 1; i<rows-1; i++ ) {
                 for( int j = 1; j<columns-1; j++ ) {
-                    updatePGrid[i][j] = (pGrid[i][j] % 4) + 
-                            (pGrid[i-1][j] / 4) +
-                            pGrid[i+1][j] / 4 +
-                            pGrid[i][j-1] / 4 + 
-                            pGrid[i][j+1] / 4;
-                    if (pGrid[i][j]!=updatePGrid[i][j]) {  
+                    updateGrid[i][j] = (grid[i][j] % 4) + 
+                            (grid[i-1][j] / 4) +
+                            grid[i+1][j] / 4 +
+                            grid[i][j-1] / 4 + 
+                            grid[i][j+1] / 4;
+                    if (grid[i][j]!=updateGrid[i][j]) {  
                         change=true;
                     }
             }}
             if (change) { nextTimeStep();}
-            return change;
         }
         else{
             int rowSplit=(int) (rows/2.0);
-            int offset = 0;
+             
 		    		//split work into two
-		    		ParallelGrid left = new ParallelGrid(rowSplit, offset);  //first half
-		    		ParallelGrid right= new ParallelGrid(rows-rowSplit,rowSplit+offset); //second half
+		    		ParallelUpdate left = new ParallelUpdate(grid, 1, rowSplit);  //first half
+		    		ParallelUpdate right= new ParallelUpdate(grid, rowSplit, rows - 1); //second half
 		    		left.fork(); //give first half to new threas
 
 		    	    right.compute(); //do second half in this thread	
 		    	    left.join();
         }
+		 
+	return change;
 	}
-    public boolean update() {
+    public boolean parallelUpdate() {
         ForkJoinPool pool = new ForkJoinPool();
-        ParallelGrid task = new ParallelGrid(this, 1, rows - 1);
+        Grid task = new Grid(grid);
         boolean changed = pool.invoke(task);
         nextTimeStep();
         return changed;
     }
-}
+	
+}	

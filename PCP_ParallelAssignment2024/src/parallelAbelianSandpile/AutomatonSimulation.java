@@ -68,6 +68,7 @@ class AutomatonSimulation{
     
     	// Read from input .csv file
     	simulationGrid = new Grid(readArrayFromCSV(inputFileName));
+		
     	
     	//for debugging - hardcoded re-initialisation options
     	//simulationGrid.set(rows/2,columns/2,rows*columns*2);
