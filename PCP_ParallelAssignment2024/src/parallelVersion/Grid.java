@@ -77,11 +77,7 @@ public class Grid {
 
 	public boolean update(ForkJoinPool pool) {
         ParallelUpdate task = new ParallelUpdate(this, 1, rows - 1);
-        boolean change = pool.invoke(task);
-        if (change) {
-            nextTimeStep();
-        }
-        return change;
+        return pool.invoke(task);
     }
     //display the grid in text format
     void printGrid() {
