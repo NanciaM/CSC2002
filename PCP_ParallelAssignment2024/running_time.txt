@@ -83,3 +83,5 @@ Rows: 1001, Columns: 1001
 Simulation complete, writing image...
 Number of steps to stable state: 471192 
 Time: 1683895 ms
+java -classpath bin parallelVersion.ParallelSimulator input/1001_by_1001_all_8.csv output/1001_parallel2.png
+java -classpath bin parallelVersion.ParallelSimulator input/1001_by_1001_all_8.csv output/1001_parallel2.png
