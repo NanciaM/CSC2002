@@ -1,37 +1,53 @@
-# Makefile for compiling and running serial program
-
 # Directories
-SRC_DIR = src/serialAbelianSandpile
-BIN_DIR = bin/serialAbelianSandpile
+SERIAL_SRC_DIR = src/serialAbelianSandpile
+SERIAL_BIN_DIR = bin/serialAbelianSandpile
+PARALLEL_SRC_DIR = src/parallelVersion
+PARALLEL_BIN_DIR = bin/parallelVersion
 
 # Source files
-JAVA_FILES = $(wildcard $(SRC_DIR)/*.java)
+SERIAL_JAVA_FILES = $(wildcard $(SERIAL_SRC_DIR)/*.java)
+PARALLEL_JAVA_FILES = $(wildcard $(PARALLEL_SRC_DIR)/*.java)
 
 # Compiled class files
-CLASS_FILES = $(patsubst $(SRC_DIR)/%.java, $(BIN_DIR)/%.class, $(JAVA_FILES))
+SERIAL_CLASS_FILES = $(patsubst $(SERIAL_SRC_DIR)/%.java, $(SERIAL_BIN_DIR)/%.class, $(SERIAL_JAVA_FILES))
+PARALLEL_CLASS_FILES = $(patsubst $(PARALLEL_SRC_DIR)/%.java, $(PARALLEL_BIN_DIR)/%.class, $(PARALLEL_JAVA_FILES))
 
 # Compilation flags
 JAVAC_FLAGS = -d bin -sourcepath src
 
-# Main class
-MAIN_CLASS = serialAbelianSandpile.AutomatonSimulation
+# Main classes
+SERIAL_MAIN_CLASS = serialAbelianSandpile.AutomatonSimulation
+PARALLEL_MAIN_CLASS = parallelVersion.ParallelSimulator
 
 # Default arguments (update these if needed)
 ARGS ?= input/65_by_65_all_4.csv output/65_by_65_all_4.png  # Replace 'default_arguments' with your specific default arguments, if any
 
 # Targets
-.PHONY: all clean run directories
+.PHONY: all clean run-serial run-parallel directories
 
-all: directories $(CLASS_FILES)
+all: directories serial parallel
 
 directories:
-	@mkdir -p $(BIN_DIR)
+	@mkdir -p $(SERIAL_BIN_DIR)
+	@mkdir -p $(PARALLEL_BIN_DIR)
 
-$(BIN_DIR)/%.class: $(SRC_DIR)/%.java
+# Compile serial version
+serial: $(SERIAL_CLASS_FILES)
+
+$(SERIAL_BIN_DIR)/%.class: $(SERIAL_SRC_DIR)/%.java
+	javac $(JAVAC_FLAGS) $<
+
+# Compile parallel version
+parallel: $(PARALLEL_CLASS_FILES)
+
+$(PARALLEL_BIN_DIR)/%.class: $(PARALLEL_SRC_DIR)/%.java
 	javac $(JAVAC_FLAGS) $<
 
 clean:
 	rm -rf bin/*
 
-run: all
-	java -classpath bin $(MAIN_CLASS) $(ARGS)
+run-serial: serial
+	java -classpath bin $(SERIAL_MAIN_CLASS) $(ARGS)
+
+run-parallel: parallel
+	java -classpath bin $(PARALLEL_MAIN_CLASS) $(ARGS)
