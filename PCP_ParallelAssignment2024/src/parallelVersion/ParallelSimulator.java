@@ -4,16 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.concurrent.ForkJoinPool;
-/* Serial  program to simulate an Abelian Sandpile cellular automaton
- * This is the reference sequential version (Do not modify this code)
- * Michelle Kuttel 2024, University of Cape Town
- * Adapted from "Abelian Sandpile Simulation"
- * Peachy Parallel Assignments (EduPar 2022)" 
- * developed by Bu\:cker, Casanova and Da Silva  (∗Institute for Computer Science, Friedrich Schiller University Jena, Jena, Germany)
- */
- 
 
- public class ParallelSimulator {
+public class ParallelSimulator {
     static final boolean DEBUG = false; // for debugging output, off
 
     static long startTime = 0;
@@ -81,7 +73,7 @@ import java.util.concurrent.ForkJoinPool;
 
         ForkJoinPool pool = new ForkJoinPool();
 
-        while (simulationGrid.update(pool)) {
+        while (simulationGrid.update(pool)) { // run until no change
             if (DEBUG)
                 simulationGrid.printGrid();
             counter++;
