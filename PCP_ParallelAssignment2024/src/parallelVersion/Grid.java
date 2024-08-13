@@ -1,5 +1,4 @@
-//Copyright M.M.Kuttel 2024 CSC2002S, UCT
-package parallelVersion;
+ package parallelVersion;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -66,19 +65,15 @@ public class Grid {
     }
 
     //key method to calculate the next update grid using parallel processing
-   /* public boolean update(ForkJoinPool pool) {
+    public boolean update(ForkJoinPool pool) {
         ParallelUpdate task = new ParallelUpdate(this, 1, rows - 1);
         boolean change = pool.invoke(task);
         if (change) {
             nextTimeStep();
         }
         return change;
-    } */ 
-
-	public boolean update(ForkJoinPool pool) {
-        ParallelUpdate task = new ParallelUpdate(this, 1, rows - 1);
-        return pool.invoke(task);
     }
+
     //display the grid in text format
     void printGrid() {
         int i, j;
@@ -148,4 +143,4 @@ public class Grid {
         File dstFile = new File(fileName);
         ImageIO.write(dstImage, "png", dstFile);
     }
-} 
+}
