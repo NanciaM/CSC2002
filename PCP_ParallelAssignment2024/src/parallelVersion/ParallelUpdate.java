@@ -3,7 +3,7 @@ package parallelVersion;
 import java.util.concurrent.RecursiveTask;
 
 class ParallelUpdate extends RecursiveTask<Boolean> {
-    private static final int CUTOFF_VALUE = 350 ; // Adjust based on grid size
+    private static final int CUTOFF_VALUE = 300 ; // Adjust based on grid size
     private Grid newGrid;
     private int startRow,endRow;
     private int endColumn;
