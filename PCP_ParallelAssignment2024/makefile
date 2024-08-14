@@ -50,8 +50,6 @@ run-serial: serial
 	java -classpath bin $(SERIAL_MAIN_CLASS) $(ARGS)
 
 run-parallel: parallel
-<<<<<<< HEAD
 	java -classpath bin $(PARALLEL_MAIN_CLASS) $(ARGS)
-=======
 	java -classpath bin $(PARALLEL_MAIN_CLASS) $(ARGS)
->>>>>>> origin/main
+
