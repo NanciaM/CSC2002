@@ -144,3 +144,4 @@ public class Grid {
         ImageIO.write(dstImage, "png", dstFile);
     }
 }
+

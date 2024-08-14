@@ -48,8 +48,4 @@ class ParallelUpdate extends RecursiveTask<Boolean> {
             return bottomhalf || tophalf;
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/main
