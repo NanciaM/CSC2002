@@ -4,7 +4,7 @@
 package medleySimulation;
 
 import java.awt.Color;
-
+import java.util.concurrent.atomic.*;
 import java.util.Random;
 
 
@@ -59,7 +59,7 @@ public class Swimmer extends Thread {
 	}
 	
 	//getter
-	public   int getX() { return currentBlock.getX();}	
+	public  int getX() { return currentBlock.getX();}	
 	
 	//getter
 	public   int getY() {	return currentBlock.getY();	}
@@ -138,7 +138,7 @@ public class Swimmer extends Thread {
 	
 	public void run() {
 		try {
-			
+			MedleySimulation.startingLatch.await(); //swimmer will have to wait for all swimmers to arrive first
 			//Swimmer arrives
 			sleep(movingSpeed+(rand.nextInt(10))); //arriving takes a while
 			myLocation.setArrived();

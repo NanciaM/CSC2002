@@ -3,12 +3,13 @@
 package medleySimulation;
 
 import javax.swing.*;
-
+import java.util.concurrent.CountDownLatch;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MedleySimulation {
 	static final int numTeams=10;
+	static CountDownLatch startingLatch = new CountDownLatch(1);
 	
    	static int frameX=300; //frame width
 	static int frameY=600;  //frame height
@@ -59,7 +60,7 @@ public class MedleySimulation {
 		// add the listener to the jbutton to handle the "pressed" event
 		startB.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e)  {
-			    	  //does nothing - fix this 	  
+				startingLatch.countDown(); 
 		    }
 		   });
 	
