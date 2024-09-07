@@ -68,11 +68,17 @@ public class StadiumGrid {
 	
 	//a person enters the stadium
 	public GridBlock enterStadium(PeopleLocation myLocation) throws InterruptedException  {
-				while((entrance.get(myLocation.getID()))) {} //wait at entrace until entrance is free - spinning, not good
+		synchronized (entrance) {
+			entrance.get(myLocation.getID());  // Wait if the entrance is occupied
+			myLocation.setLocation(entrance);
+			myLocation.setInStadium(true);
+		}
+		return entrance;	
+			/*while((entrance.get(myLocation.getID()))) {} //wait at entrace until entrance is free - spinning, not good
 				myLocation.setLocation(entrance);
 				myLocation.setInStadium(true);
 				return entrance;
-			
+				*/
 	}
 	
 	//returns starting block for a team (the lane)
@@ -106,9 +112,9 @@ public class StadiumGrid {
 			newBlock= whichBlock(add_x+c_x,add_y+c_y);//try diagonal or y
 		
 		
-			while((!newBlock.get(myLocation.getID()))) {} //wait until block is free - but spinning is bad
-			myLocation.setLocation(newBlock);		
-			currentBlock.release(); //must release current block
+			newBlock.get(myLocation.getID());  // Wait if new block is occupied
+			myLocation.setLocation(newBlock);
+			currentBlock.release();  // Release current block
 			return newBlock;
 		
 		
@@ -126,9 +132,9 @@ public GridBlock jumpTo(GridBlock currentBlock,int x, int y,PeopleLocation myLoc
 		GridBlock newBlock= whichBlock(x,y);//try diagonal or y
 		
 		
-			while((!newBlock.get(myLocation.getID()))) { } //wait until block is free - but spinning, not good
-			myLocation.setLocation(newBlock);		
-			currentBlock.release(); //must release current block
+			newBlock.get(myLocation.getID());  // Wait if new block is occupied
+			myLocation.setLocation(newBlock);
+			currentBlock.release();  // Release current block
 			return newBlock;
 		
 		
