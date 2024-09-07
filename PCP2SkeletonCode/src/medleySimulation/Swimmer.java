@@ -6,6 +6,8 @@ package medleySimulation;
 import java.awt.Color;
 import java.util.concurrent.atomic.*;
 import java.util.Random;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 
 
@@ -13,6 +15,7 @@ public class Swimmer extends Thread {
 	
 	public static StadiumGrid stadium; //shared 
 	private FinishCounter finish; //shared
+	private static CyclicBarrier swimBarrier;
 	
 		
 	GridBlock currentBlock;
@@ -71,6 +74,11 @@ public class Swimmer extends Thread {
 	public SwimStroke getSwimStroke() {
 		return swimStroke;
 	}
+
+	public void setBarrier(CyclicBarrier barrier) {
+        this.swimBarrier = barrier;
+    }
+
 
 	//!!!You do not need to change the method below!!!
 	//swimmer enters stadium area
@@ -135,7 +143,7 @@ public class Swimmer extends Thread {
 			sleep(movingSpeed*3);  //not rushing 
 		}
 	}
-	
+	@Override
 	public void run() {
 		try {
 			MedleySimulation.startingLatch.await(); //swimmer will have to wait for all swimmers to arrive first
@@ -145,6 +153,7 @@ public class Swimmer extends Thread {
 			enterStadium();	
 			
 			goToStartingBlocks();
+			MedleySimulation.swimBarrier.await(); 
 								
 			dive(); 
 				
@@ -157,7 +166,8 @@ public class Swimmer extends Thread {
 				exitPool();//if not last swimmer leave pool
 			}
 			
-		} catch (InterruptedException e1) {  //do nothing
+		} catch (InterruptedException | BrokenBarrierException e1) {  
+			//do nothing
 		} 
 	}
 	

@@ -6,10 +6,12 @@ import javax.swing.*;
 import java.util.concurrent.CountDownLatch;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.CyclicBarrier;
 
 public class MedleySimulation {
 	static final int numTeams=10;
 	static CountDownLatch startingLatch = new CountDownLatch(1);
+	static CyclicBarrier swimBarrier;
 	
    	static int frameX=300; //frame width
 	static int frameY=600;  //frame height
@@ -86,7 +88,7 @@ public class MedleySimulation {
 //Main method - starts it all
 	public static void main(String[] args) throws InterruptedException {
 	
-	
+		swimBarrier = new CyclicBarrier(numTeams * SwimTeam.sizeOfTeam);
 	    finishLine = new FinishCounter(); //counters for people inside and outside club
 	 
 		stadiumGrid = new StadiumGrid(gridX, gridY, numTeams,finishLine); //setup stadium with size     
@@ -111,5 +113,6 @@ public class MedleySimulation {
       	for (int i=0;i<numTeams;i++) {
 			teams[i].start();
 		}
+		 
 	}
 }

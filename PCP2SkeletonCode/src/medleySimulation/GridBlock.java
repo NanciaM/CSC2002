@@ -3,18 +3,19 @@
 // only one thread at a time "owns" a GridBlock - this must be enforced
 
 package medleySimulation;
+import java.util.concurrent.atomic.*;
 
 
 public class GridBlock {
 	
-	private int isOccupied; 
+	public static AtomicInteger isOccupied; 
 	
-	private final boolean isStart;  //is this a starting block?
+	public static AtomicBoolean isStart;  //is this a starting block?
 	private int [] coords; // the coordinate of the block.
 	
 	GridBlock(boolean startBlock) throws InterruptedException {
-		isStart=startBlock;
-		isOccupied= -1;
+		isStart=new AtomicBoolean(startBlock);
+		isOccupied= new AtomicInteger(-1);
 	}
 	
 	GridBlock(int x, int y, boolean startBlock) throws InterruptedException {
@@ -30,29 +31,28 @@ public class GridBlock {
 	
 	//Get a block
 	public  boolean get(int threadID) throws InterruptedException {
-		if (isOccupied==threadID) return true; //thread Already in this block
-		if (isOccupied>=0) return false; //space is occupied
-		isOccupied= threadID;  //set ID to thread that had block
-		return true;
+		if (isOccupied.get()==threadID) return true; //thread Already in this block
+		if (isOccupied.compareAndSet(-1, threadID)) return true; //set ID to thread that had block		  
+		return false;//space is occupied
 	}
 		
 	
 	//release a block
 	public  void release() {
-		isOccupied= -1;
+		isOccupied= new AtomicInteger(-1);
 	}
 	
 
 	//is a bloc already occupied?
 	public  boolean occupied() {
-		if(isOccupied==-1) return false;
+		if(isOccupied.get()==-1) return false;
 		return true;
 	}
 	
 	
 	//is a start block
 	public  boolean isStart() {
-		return isStart;	
+		return isStart.get();	
 	}
 
 }

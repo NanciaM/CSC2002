@@ -47,21 +47,21 @@ public class StadiumGrid {
 		}
 	}
 	
-	public  int getMaxX() { return x;}
+	public synchronized int getMaxX() { return x;}
 	
-	public int getMaxY() { return y;}
+	public synchronized int getMaxY() { return y;}
 
 	public GridBlock whereEntrance() {  return entrance; }
 
 	//is this a valid grid reference?
-	public  boolean inGrid(int i, int j) {
+	public  synchronized boolean inGrid(int i, int j) {
 		if ((i>=x) || (j>=y) ||(i<0) || (j<0)) 
 			return false;
 		return true;
 	}
 	
 	//is this a valid grid reference?
-	public  boolean inStadiumArea(int i, int j) {
+	public  synchronized boolean inStadiumArea(int i, int j) {
 		return inGrid(i,j);
 	}
 	
@@ -76,7 +76,7 @@ public class StadiumGrid {
 	}
 	
 	//returns starting block for a team (the lane)
-	public GridBlock returnStartingBlock(int team) {
+	public synchronized GridBlock returnStartingBlock(int team) {
 			return startingBlocks[team];
 	}
 	
@@ -135,7 +135,7 @@ public GridBlock jumpTo(GridBlock currentBlock,int x, int y,PeopleLocation myLoc
 	} 
 	
 //x and y actually correspond to the grid pos, but this is for generality.
-	public GridBlock whichBlock(int xPos, int yPos) {
+	public synchronized GridBlock whichBlock(int xPos, int yPos) {
 		if (inGrid(xPos,yPos)) {
 			return Blocks[xPos][yPos];
 		}
