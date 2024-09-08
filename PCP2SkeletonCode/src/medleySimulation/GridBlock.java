@@ -13,8 +13,10 @@ public class GridBlock {
 	
 	private int isOccupied = -1; // -1 means not occupied
     private final boolean isStart; // is this a starting block?
-    private final Lock lock = new ReentrantLock();
-    private final Condition blockFree = lock.newCondition(); // Condition for checking if block is free
+	private final Object lock = new Object();
+   // private final Lock lock = new ReentrantLock();
+    //private final Condition blockFree = lock.newCondition(); // Condition for checking if block is free
+
 	private int [] coords; // the coordinate of the block.
 	
 	GridBlock(boolean startBlock) throws InterruptedException {
@@ -34,16 +36,12 @@ public class GridBlock {
 	
 	//Get a block
 	public void get(int threadID) throws InterruptedException {
-		lock.lock();
-        try {
+		synchronized (lock) {  // Synchronize on the lock object (Java monitor lock)
             while (isOccupied != -1 && isOccupied != threadID) {
-                blockFree.await(); // Wait until the block is free
+                lock.wait();  // Wait if the block is occupied
             }
-            isOccupied = threadID; // Occupy the block
-        } finally {
-            lock.unlock();
+            isOccupied = threadID;  // Occupy the block
         }
-		
 		/*if (isOccupied.get()==threadID) return true; //thread Already in this block
 		if (isOccupied.compareAndSet(-1, threadID)) return true; //set ID to thread that had block		  
 		return false;//space is occupied*/
@@ -52,12 +50,9 @@ public class GridBlock {
 	
 	//release a block
 	public  void release() {
-		lock.lock();
-        try {
-            isOccupied = -1; // Mark as not occupied
-            blockFree.signalAll(); // Notify all waiting threads that block is free
-        } finally {
-            lock.unlock();
+		synchronized (lock) {
+            isOccupied = -1;  // Mark as not occupied
+            lock.notifyAll();  // Notify all waiting threads that the block is free
         }
 		//isOccupied= new AtomicInteger(-1);
 	}
@@ -65,11 +60,8 @@ public class GridBlock {
 
 	//is a bloc already occupied?
 	public  boolean occupied() {
-		lock.lock();
-        try {
+		synchronized (lock) {
             return isOccupied != -1;
-        } finally {
-            lock.unlock();
         }
 	}
 	

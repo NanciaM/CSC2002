@@ -123,12 +123,12 @@ public GridBlock jumpTo(GridBlock currentBlock,int x, int y,PeopleLocation myLoc
 		}
 
 		GridBlock newBlock= whichBlock(x,y);//try diagonal or y
+		newBlock.get(myLocation.getID());  // Wait if new block is occupied
+		myLocation.setLocation(newBlock);
+		currentBlock.release();  // Release current block
+		return newBlock;
 		
-		
-			newBlock.get(myLocation.getID());  // Wait if new block is occupied
-			myLocation.setLocation(newBlock);
-			currentBlock.release();  // Release current block
-			return newBlock;
+			
 		
 		
 	} 

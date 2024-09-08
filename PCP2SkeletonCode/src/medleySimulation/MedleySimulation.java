@@ -88,7 +88,7 @@ public class MedleySimulation {
 //Main method - starts it all
 	public static void main(String[] args) throws InterruptedException {
 	
-		swimBarrier = new CyclicBarrier(numTeams * SwimTeam.sizeOfTeam);
+		swimBarrier = new CyclicBarrier(numTeams);
 	    finishLine = new FinishCounter(); //counters for people inside and outside club
 	 
 		stadiumGrid = new StadiumGrid(gridX, gridY, numTeams,finishLine); //setup stadium with size     
