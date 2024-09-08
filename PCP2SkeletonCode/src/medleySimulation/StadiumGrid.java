@@ -105,18 +105,11 @@ public class StadiumGrid {
 			return currentBlock;
 		}
 
-		GridBlock newBlock;
-		if(add_x!=0)
-			newBlock = whichBlock(add_x+c_x,c_y); //try moving x only first
-		else 
-			newBlock= whichBlock(add_x+c_x,add_y+c_y);//try diagonal or y
-		
-		
-			newBlock.get(myLocation.getID());  // Wait if new block is occupied
-			myLocation.setLocation(newBlock);
-			currentBlock.release();  // Release current block
-			return newBlock;
-		
+		GridBlock newBlock  = whichBlock(add_x + c_x, (add_x != 0) ? c_y : add_y + c_y);
+		newBlock.get(myLocation.getID()); // Wait if new block is occupied
+        myLocation.setLocation(newBlock);
+        currentBlock.release(); // Release current block
+        return newBlock;
 		
 	} 
 	
