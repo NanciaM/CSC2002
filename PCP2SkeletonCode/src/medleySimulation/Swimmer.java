@@ -17,7 +17,8 @@ public class Swimmer extends Thread {
 	public static StadiumGrid stadium; //shared 
 	private FinishCounter finish; //shared
 	private static CyclicBarrier swimBarrier;
-	
+	private CountDownLatch prevLatch; // Previous swimmer's latch
+    private CountDownLatch nextLatch; // Next swimmer's latch
 		
 	GridBlock currentBlock;
 	private Random rand;
@@ -27,9 +28,6 @@ public class Swimmer extends Thread {
 	private int ID; //thread ID 
 	private int team; // team ID
 	private GridBlock start;
-
-	private CountDownLatch swimLatch; // latch to wait for previous swimmer
-    private CountDownLatch nextLatch; // latch to signal the next swimmer
 
 	public enum SwimStroke { 
 		Backstroke(1,2.5,Color.black),
@@ -63,7 +61,13 @@ public class Swimmer extends Thread {
 		start = stadium.returnStartingBlock(team);
 		finish=f;
 		rand=new Random();
+		 
 	}
+
+	public void setLatches(CountDownLatch prevLatch, CountDownLatch nextLatch) {
+        this.prevLatch = prevLatch;
+        this.nextLatch = nextLatch;
+    }
 	
 	//getter
 	public  int getX() { return currentBlock.getX();}	
@@ -82,10 +86,6 @@ public class Swimmer extends Thread {
 	public void setBarrier(CyclicBarrier barrier) {
         this.swimBarrier = barrier;
     }
-	public void setLatches(CountDownLatch swimLatch, CountDownLatch nextLatch) {
-		this.swimLatch = swimLatch;
-		this.nextLatch = nextLatch;
-	}
 
 
 	//!!!You do not need to change the method below!!!
@@ -154,27 +154,25 @@ public class Swimmer extends Thread {
 	@Override
 	public void run() {
 		try {
-			
 			MedleySimulation.startingLatch.await(); //swimmer will have to wait for all swimmers to arrive first
 			//Swimmer arrives
 			sleep(movingSpeed+(rand.nextInt(10))); //arriving takes a while
 			myLocation.setArrived();
+
 			
 			enterStadium();	
-
-			if (swimLatch != null) {
-				swimLatch.await();  // Wait for the previous swimmer to finish (if any)
-			}
-			goToStartingBlocks();
-
-			if (nextLatch != null) nextLatch.countDown();	
-			swimRace();
 			
-			MedleySimulation.swimBarrier.await(); 
+			goToStartingBlocks();
+			if (prevLatch != null) {
+                prevLatch.await();
+            }
+			//MedleySimulation.swimBarrier.await(); 
 								
 			dive(); 
 			
-			
+			swimRace();
+			// Notify the next swimmer (if any)
+            
 			if(swimStroke.order==4) {
 				finish.finishRace(ID, team); // fnishline
 			}
@@ -182,8 +180,11 @@ public class Swimmer extends Thread {
 				//System.out.println("Thread "+this.ID + " done " + currentBlock.getX()  + " " +currentBlock.getY() );			
 				exitPool();//if not last swimmer leave pool
 			}
+			if (nextLatch != null) {
+                nextLatch.countDown();
+            }
 			
-		} catch (InterruptedException | BrokenBarrierException e1) {  
+		} catch (InterruptedException e1) {  
 			//do nothing
 		} 
 	}
