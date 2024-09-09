@@ -44,7 +44,7 @@ public class Swimmer extends Thread {
 	            this.order = order;
 	            this.colour = c;
 	        }
-	  
+			
 	        public int getOrder() {return order;}
 
 	        public  Color getColour() { return colour; }
@@ -82,10 +82,28 @@ public class Swimmer extends Thread {
 	public SwimStroke getSwimStroke() {
 		return swimStroke;
 	}
+	public void setSwimPriority(){
+		 switch (this.swimStroke) {
+			case Backstroke:
+				this.setPriority(MAX_PRIORITY);
+				break;
+				
+			case Breaststroke:
+			this.setPriority(6);
+			break;
 
-	public void setBarrier(CyclicBarrier barrier) {
-        this.swimBarrier = barrier;
-    }
+			case Butterfly:
+			this.setPriority(4);
+			break;
+
+			case Freestyle:
+			this.setPriority(MIN_PRIORITY);
+			break;
+
+			default:
+				break;
+		 }
+	}
 
 
 	//!!!You do not need to change the method below!!!
@@ -163,16 +181,17 @@ public class Swimmer extends Thread {
 			enterStadium();	
 			
 			goToStartingBlocks();
+			//MedleySimulation.swimBarrier.await();
 			if (prevLatch != null) {
                 prevLatch.await();
-            }
-			//MedleySimulation.swimBarrier.await(); 
-								
+            }				
 			dive(); 
 			
 			swimRace();
 			// Notify the next swimmer (if any)
-            
+            if (nextLatch != null) {
+                nextLatch.countDown();
+            }
 			if(swimStroke.order==4) {
 				finish.finishRace(ID, team); // fnishline
 			}
@@ -184,7 +203,7 @@ public class Swimmer extends Thread {
                 nextLatch.countDown();
             }
 			
-		} catch (InterruptedException e1) {  
+		} catch (InterruptedException   e1) {  
 			//do nothing
 		} 
 	}

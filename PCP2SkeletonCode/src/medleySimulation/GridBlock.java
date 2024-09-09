@@ -11,16 +11,15 @@ import java.util.concurrent.locks.Condition;
 
 public class GridBlock {
 	
-	private int isOccupied = -1; // -1 means not occupied
-    private final boolean isStart; // is this a starting block?
-	private final Object lock = new Object();
-   // private final Lock lock = new ReentrantLock();
-    //private final Condition blockFree = lock.newCondition(); // Condition for checking if block is free
-
+	private AtomicInteger isOccupied; 
+	
+	private final boolean isStart;  //is this a starting block?
 	private int [] coords; // the coordinate of the block.
+	//private final Object lock = new Object();
 	
 	GridBlock(boolean startBlock) throws InterruptedException {
-		this.isStart = startBlock;
+		isStart=startBlock;
+		isOccupied= new AtomicInteger (-1);
 	}
 	
 	GridBlock(int x, int y, boolean startBlock) throws InterruptedException {
@@ -35,40 +34,36 @@ public class GridBlock {
 	
 	
 	//Get a block
-	public void get(int threadID) throws InterruptedException {
-		synchronized (lock) {  // Synchronize on the lock object (Java monitor lock)
-            while (isOccupied != -1 && isOccupied != threadID) {
-                lock.wait();  // Wait if the block is occupied
-            }
-            isOccupied = threadID;  // Occupy the block
-        }
-		/*if (isOccupied.get()==threadID) return true; //thread Already in this block
-		if (isOccupied.compareAndSet(-1, threadID)) return true; //set ID to thread that had block		  
-		return false;//space is occupied*/
+	public  boolean get(int threadID) throws InterruptedException {
+		while (isOccupied.get() >= 0 && isOccupied.get() != threadID) {
+			wait();
+		}
+
+		if (isOccupied.get() == threadID) {
+			return true;  // Thread is already in the block
+		}
+
+		isOccupied = new AtomicInteger (threadID);
+    	return true;  // Block is now occupied by this thread
 	}
 		
 	
 	//release a block
-	public  void release() {
-		synchronized (lock) {
-            isOccupied = -1;  // Mark as not occupied
-            lock.notifyAll();  // Notify all waiting threads that the block is free
-        }
-		//isOccupied= new AtomicInteger(-1);
+	public synchronized void release() {
+			isOccupied.set(-1);
+			notifyAll();
 	}
 	
 
 	//is a bloc already occupied?
 	public  boolean occupied() {
-		synchronized (lock) {
-            return isOccupied != -1;
-        }
+		return isOccupied.get() != -1;
 	}
 	
 	
 	//is a start block
 	public  boolean isStart() {
-		return isStart;
+		return isStart;	
 	}
 
 }

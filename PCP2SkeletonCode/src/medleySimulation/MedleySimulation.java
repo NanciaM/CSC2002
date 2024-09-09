@@ -113,9 +113,9 @@ public class MedleySimulation {
       	for (int i=0;i<numTeams;i++) {
 			teams[i].start();
 		}
-		/*for (int i=0;i<numTeams;i++) {
+		for (int i=0;i<numTeams;i++) {
 			teams[i].join();
-		}*/
+		}
 		 
 	}
 }

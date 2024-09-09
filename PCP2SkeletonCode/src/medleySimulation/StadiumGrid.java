@@ -30,7 +30,7 @@ public class StadiumGrid {
 		}
 	
 	//initialise the grid, creating all the GridBlocks, marking the starting blocks
-	private  void initGrid() throws InterruptedException {
+	private void initGrid() throws InterruptedException {
 		int startBIndex=0;
 		for (int i=0;i<x;i++) {
 			for (int j=0;j<y;j++) {
@@ -51,38 +51,33 @@ public class StadiumGrid {
 	
 	public synchronized int getMaxY() { return y;}
 
-	public GridBlock whereEntrance() {  return entrance; }
+	public synchronized GridBlock whereEntrance() {  return entrance; }
 
 	//is this a valid grid reference?
-	public  synchronized boolean inGrid(int i, int j) {
+	public synchronized  boolean inGrid(int i, int j) {
 		if ((i>=x) || (j>=y) ||(i<0) || (j<0)) 
 			return false;
 		return true;
 	}
 	
 	//is this a valid grid reference?
-	public  synchronized boolean inStadiumArea(int i, int j) {
+	public synchronized boolean inStadiumArea(int i, int j) {
 		return inGrid(i,j);
 	}
 	
 	
 	//a person enters the stadium
 	public GridBlock enterStadium(PeopleLocation myLocation) throws InterruptedException  {
-		synchronized (entrance) {
-			entrance.get(myLocation.getID());  // Wait if the entrance is occupied
-			myLocation.setLocation(entrance);
-			myLocation.setInStadium(true);
-		}
-		return entrance;	
-			/*while((entrance.get(myLocation.getID()))) {} //wait at entrace until entrance is free - spinning, not good
+			synchronized(entrance){
+				//while((entrance.get(myLocation.getID()))) {} //wait at entrace until entrance is free - spinning, not good
 				myLocation.setLocation(entrance);
 				myLocation.setInStadium(true);
-				return entrance;
-				*/
+			}
+			return entrance;							
 	}
 	
 	//returns starting block for a team (the lane)
-	public synchronized GridBlock returnStartingBlock(int team) {
+	public GridBlock returnStartingBlock(int team) {
 			return startingBlocks[team];
 	}
 	
@@ -105,12 +100,18 @@ public class StadiumGrid {
 			return currentBlock;
 		}
 
-		GridBlock newBlock  = whichBlock(add_x + c_x, (add_x != 0) ? c_y : add_y + c_y);
-		newBlock.get(myLocation.getID()); // Wait if new block is occupied
-        myLocation.setLocation(newBlock);
-        currentBlock.release(); // Release current block
-        return newBlock;
+		GridBlock newBlock;
+		if(add_x!=0)
+			newBlock = whichBlock(add_x+c_x,c_y); //try moving x only first
+		else 
+			newBlock= whichBlock(add_x+c_x,add_y+c_y);//try diagonal or y
 		
+		synchronized(newBlock){
+			newBlock.get(myLocation.getID()); //wait until block is free - but spinning is bad
+			myLocation.setLocation(newBlock);		
+			currentBlock.release(); //must release current block
+			return newBlock;
+		}	
 	} 
 	
 	//levitate to a specific block -
@@ -123,18 +124,17 @@ public GridBlock jumpTo(GridBlock currentBlock,int x, int y,PeopleLocation myLoc
 		}
 
 		GridBlock newBlock= whichBlock(x,y);//try diagonal or y
-		newBlock.get(myLocation.getID());  // Wait if new block is occupied
-		myLocation.setLocation(newBlock);
-		currentBlock.release();  // Release current block
-		return newBlock;
 		
-			
-		
-		
+		synchronized(newBlock){
+			while((!newBlock.get(myLocation.getID()))) { } //wait until block is free - but spinning, not good
+			myLocation.setLocation(newBlock);		
+			currentBlock.release(); //must release current block
+			return newBlock;
+		}		
 	} 
 	
 //x and y actually correspond to the grid pos, but this is for generality.
-	public synchronized GridBlock whichBlock(int xPos, int yPos) {
+	public GridBlock whichBlock(int xPos, int yPos) {
 		if (inGrid(xPos,yPos)) {
 			return Blocks[xPos][yPos];
 		}
