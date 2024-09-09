@@ -1,0 +1,246 @@
+commit 9023c12d40c93a4db7f84901ca2a86a26f26c0c6
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Mon Sep 9 16:38:10 2024 +0000
+
+    added  latches to control the order of entry and race order
+
+commit f61b58ddf998279ed7b14a071f97ef1f08d7c6d9
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Mon Sep 9 12:08:15 2024 +0000
+
+    revised the sychronisation of the grid block and Stadium grid
+
+commit 9b546e5903d15f97f0a1dd253f7a33ecdbd1e12a
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Sun Sep 8 19:21:27 2024 +0000
+
+    added latches to the swimmers to ensure they dive only when the previous exits the pool
+
+commit 0b18c124c039d20204e4d485473acae584808e93
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Sun Sep 8 13:56:26 2024 +0000
+
+    made changes to allow swimmers to enter in order of ther events
+
+commit e29cae293689308ea1d8bacf0122536209f39b16
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Sun Sep 8 00:37:08 2024 +0000
+
+    corrected the liveliness error in StadiumGrid
+
+commit 5c2370ed2180509f09289d34c6741a74d1fe9baa
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Sat Sep 7 23:47:17 2024 +0000
+
+    synchronised GridBlock and StadiumViewer
+
+commit 2e828e2c56d47415bbc6b26e350256f451f776db
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Sat Sep 7 21:46:05 2024 +0000
+
+    minor changes
+
+commit 5814184c36dcb8f3860df346c69e32492bba2eab
+Author: Nancia Mwaramba <mwrnan002@>
+Date:   Thu Sep 5 21:48:23 2024 +0200
+
+    made the start button functional
+
+commit 35b14daebef86c85f484875cdb774e340e0e6578
+Author: Nancia Mwaramba <mwrnan002@>
+Date:   Thu Sep 5 18:43:53 2024 +0200
+
+    add PCP2 skeleton code
+
+commit 5e5a08c9637f490404344862589ce23eb1bfa67e
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Wed Aug 14 15:29:01 2024 +0000
+
+    added readings and output images
+
+commit a1ebb3cce89d0808e1a4704ecb50a991790dfab5
+Author: Nancia Mwaramba <mwrnan002@>
+Date:   Wed Aug 14 05:51:15 2024 +0200
+
+    changed the the cutoff to 210
+
+commit 094a8d6ef0a19eb8c6d2ad1e125458e8a132a5bb
+Author: Nancia Mwaramba <mwrnan002@>
+Date:   Wed Aug 14 05:37:24 2024 +0200
+
+    changed the the cutoff to 170
+
+commit 804bde80e66e7b2b8ee8bab6c38d86b7a882bad0
+Author: Nancia Mwaramba <mwrnan002@>
+Date:   Wed Aug 14 04:51:14 2024 +0200
+
+    changed the the cutoff to 250
+
+commit 3b4e9f9f31abab723a9f7303c5c012c3d273f898
+Author: Nancia Mwaramba <mwrnan002@>
+Date:   Wed Aug 14 03:43:32 2024 +0200
+
+    changed the the cutoff to 300
+
+commit f52f234de934ae13372304184b36e94b159ff385
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Wed Aug 14 00:19:49 2024 +0000
+
+    corrected files
+
+commit bef0ff02ef30f2c9a7d0615d35e6a803b36d88c1
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Wed Aug 14 00:01:55 2024 +0000
+
+    corrected the makefile
+
+commit 44bfb6dac1dc6d79cf4318cbf58a16c9ab3f5a7f
+Merge: 213b312 6e31577
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Tue Aug 13 23:51:38 2024 +0000
+
+    Resolved conflict by removing non-existent file from index and conflicting files
+
+commit 213b3123191c315c260a8099a0726a8e8c29e24f
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Tue Aug 13 23:16:26 2024 +0000
+
+    updated makefile
+
+commit 6e31577b053ec55b6bb37f773847fda6a35e5032
+Author: NanciaM <162067931+NanciaM@users.noreply.github.com>
+Date:   Tue Aug 13 13:24:50 2024 +0200
+
+    Delete PCP_ParallelAssignment2024/.output1.swp
+
+commit 82b3cdc1f2229eacbc6cb494bc3b0379d007f237
+Author: NanciaM <162067931+NanciaM@users.noreply.github.com>
+Date:   Tue Aug 13 13:24:23 2024 +0200
+
+    Delete PCP_ParallelAssignment2024/.makeParallel.swp
+
+commit 959f85517c5c87ffae3cff7ec5237dc2ed5616df
+Author: NanciaM <162067931+NanciaM@users.noreply.github.com>
+Date:   Tue Aug 13 13:24:02 2024 +0200
+
+    Deleted make Parallel because it was unnecessary
+
+commit 71104ddda6e8606712b950c4bb5af4a9de63976c
+Author: NanciaM <162067931+NanciaM@users.noreply.github.com>
+Date:   Tue Aug 13 13:22:12 2024 +0200
+
+    Update Grid.java
+
+commit ec5db2e693e74a0c8d46ce77a459bbdfe22a5521
+Author: NanciaM <162067931+NanciaM@users.noreply.github.com>
+Date:   Tue Aug 13 13:21:49 2024 +0200
+
+    Update Grid.java
+
+commit c2dd8e2ac4c85fbb129475735a9c2fd7cef3d126
+Author: NanciaM <162067931+NanciaM@users.noreply.github.com>
+Date:   Tue Aug 13 13:20:30 2024 +0200
+
+    Update ParallelSimulator.java by correcting the implementation of the fork join
+
+commit 1ab15652be1f3b85441935239e29f328c00e3c0c
+Author: NanciaM <162067931+NanciaM@users.noreply.github.com>
+Date:   Tue Aug 13 13:18:14 2024 +0200
+
+    removed irrelevant comments
+
+commit be6144220e0e62ef6c854751752469e7db4ec71d
+Author: root <root@NanciaPC>
+Date:   Tue Aug 13 03:37:28 2024 +0200
+
+    added file with out put
+
+commit 2f88284d916d04f2b060f6f96e1882e7aedb3001
+Author: Nancia Mwaramba <mwrnan002@>
+Date:   Sun Aug 11 17:28:54 2024 +0200
+
+    minor changes to make the parallel version work
+
+commit d2d2dc634b6ea365eff06691298d2ec592b01c63
+Author: Nancia Mwaramba <mwrnan002@>
+Date:   Sun Aug 11 16:57:38 2024 +0200
+
+    debugged
+
+commit 45bf249c38a156f22145ee37df15a7ece452be87
+Author: Nancia Mwaramba <mwrnan002@>
+Date:   Sun Aug 11 15:04:29 2024 +0200
+
+    made updates to the Parallel Simulator class so that it implements the paralel updates
+
+commit 81767a220b20feb626b1cca5f82b76dfc4e8bdfb
+Author: Nancia Mwaramba <mwrnan002@>
+Date:   Sun Aug 11 14:51:29 2024 +0200
+
+    created a separte directory for the parallelversion of the program and updated parallelUpdate class
+
+commit 190d45c03776dd2dc5a95d3e123708188917b5a8
+Author: root <root@NanciaPC>
+Date:   Fri Aug 9 12:02:20 2024 +0200
+
+    separated the the parallel from the serial program
+
+commit 2b441da5e6211c46afbd35a0be9b08c891f02670
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Thu Aug 8 22:30:43 2024 +0000
+
+    add ammended files with different parallel algorithym
+
+commit 8331cb9e8e57ad6717b240a7c63ba5ae2420b190
+Author: root <root@NanciaPC>
+Date:   Fri Aug 9 00:04:49 2024 +0200
+
+    mordified the the Parallel update
+
+commit ccb184ed2355dfb9ab204b65daf307f4caddf4f9
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Thu Aug 8 21:40:03 2024 +0000
+
+    writing to output1
+
+commit bdac1ebce355ce828f434fe8b0f12550359f357f
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Tue Aug 6 19:47:47 2024 +0000
+
+    make corrections to ParallelGrid.java
+
+commit 485976fcc02e73f03def2990e7cf25ab8753cc41
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Tue Aug 6 19:44:44 2024 +0000
+
+    make corrections to ParallelGrid.java
+
+commit 0034a5ed23fa4a8260574076e8002c87767d5ba9
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Tue Aug 6 18:52:30 2024 +0000
+
+    corrected error in constructor
+
+commit 9c15ea1b5231effe30bb454320611b8ba2a232e1
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Tue Aug 6 18:45:42 2024 +0000
+
+    created a parallel grid
+
+commit 424a0c2d8e30b06542e24f6cf5cf5a43e0cd831c
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Tue Aug 6 18:31:31 2024 +0000
+
+    crated ParallelUpdate which modifies the update method since it has the highest computation cost.
+
+commit 3ec5330e62dbed99713609f2f7e913b362ce7608
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Tue Aug 6 16:48:42 2024 +0000
+
+    exponding on M.M.Kuttel 2024 CSC2002S Grid.java in ParallelGrid.java
+
+commit f1d2e74e1f89c3e21ae95a3d71090b4798abe42b
+Author: Nancia Mwaramba <mwrnan002@nightmare.cs.uct.ac.za>
+Date:   Tue Aug 6 14:05:15 2024 +0000
+
+    uploading existing files
