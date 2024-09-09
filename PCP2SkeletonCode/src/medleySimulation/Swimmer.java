@@ -16,10 +16,14 @@ public class Swimmer extends Thread {
 	
 	public static StadiumGrid stadium; //shared 
 	private FinishCounter finish; //shared
-	private static CyclicBarrier swimBarrier;
+	
 	private CountDownLatch prevLatch; // Previous swimmer's latch
     private CountDownLatch nextLatch; // Next swimmer's latch
-		
+
+	private CountDownLatch entryPrevLatch; // Previous swimmer's latch
+    private CountDownLatch entryNextLatch; // Next swimmer's latch
+	 
+
 	GridBlock currentBlock;
 	private Random rand;
 	private int movingSpeed;
@@ -68,7 +72,13 @@ public class Swimmer extends Thread {
         this.prevLatch = prevLatch;
         this.nextLatch = nextLatch;
     }
-	
+
+	public void setEntryLatches(CountDownLatch entryPrevLatch, CountDownLatch entryNextLatch) {
+        this.entryPrevLatch = entryPrevLatch;
+        this.entryNextLatch = entryNextLatch;
+    }
+ 
+
 	//getter
 	public  int getX() { return currentBlock.getX();}	
 	
@@ -82,29 +92,8 @@ public class Swimmer extends Thread {
 	public SwimStroke getSwimStroke() {
 		return swimStroke;
 	}
-	public void setSwimPriority(){
-		 switch (this.swimStroke) {
-			case Backstroke:
-				this.setPriority(MAX_PRIORITY);
-				break;
-				
-			case Breaststroke:
-			this.setPriority(6);
-			break;
-
-			case Butterfly:
-			this.setPriority(4);
-			break;
-
-			case Freestyle:
-			this.setPriority(MIN_PRIORITY);
-			break;
-
-			default:
-				break;
-		 }
-	}
-
+	 
+	
 
 	//!!!You do not need to change the method below!!!
 	//swimmer enters stadium area
@@ -176,22 +165,33 @@ public class Swimmer extends Thread {
 			//Swimmer arrives
 			sleep(movingSpeed+(rand.nextInt(10))); //arriving takes a while
 			myLocation.setArrived();
-
-			
+			if (entryPrevLatch != null) {
+                entryPrevLatch .await();
+            }
+ 
 			enterStadium();	
-			
+
+			if (entryNextLatch != null) {
+                entryNextLatch.countDown();
+            }
+		
 			goToStartingBlocks();
-			//MedleySimulation.swimBarrier.await();
+			
 			if (prevLatch != null) {
                 prevLatch.await();
-            }				
+            }
+
+			if (swimStroke.order == 1) {  
+				MedleySimulation.swimBarrier.await(); // Barrier only applies to the first swimmer
+			}	
 			dive(); 
 			
 			swimRace();
 			// Notify the next swimmer (if any)
-            if (nextLatch != null) {
+			if (nextLatch != null) {
                 nextLatch.countDown();
             }
+
 			if(swimStroke.order==4) {
 				finish.finishRace(ID, team); // fnishline
 			}
@@ -199,11 +199,9 @@ public class Swimmer extends Thread {
 				//System.out.println("Thread "+this.ID + " done " + currentBlock.getX()  + " " +currentBlock.getY() );			
 				exitPool();//if not last swimmer leave pool
 			}
-			if (nextLatch != null) {
-                nextLatch.countDown();
-            }
 			
-		} catch (InterruptedException   e1) {  
+			
+		} catch (InterruptedException | BrokenBarrierException  e1) {  
 			//do nothing
 		} 
 	}

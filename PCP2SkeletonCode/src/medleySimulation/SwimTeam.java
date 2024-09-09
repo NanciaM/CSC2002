@@ -15,6 +15,7 @@ public class SwimTeam extends Thread {
 	private Swimmer [] swimmers;
 	private int teamNo; //team number 
 	private final CountDownLatch[] latches;
+	private final CountDownLatch[] entranceLatches;
 
 	
 	public static final int sizeOfTeam=4;
@@ -22,6 +23,7 @@ public class SwimTeam extends Thread {
 	SwimTeam( int ID, FinishCounter finish,PeopleLocation [] locArr ) {
 		this.teamNo=ID;
 		this.latches = new CountDownLatch[sizeOfTeam];
+		this.entranceLatches = new CountDownLatch[sizeOfTeam];
 
 		swimmers= new Swimmer[sizeOfTeam];
 	    SwimStroke[] strokes = SwimStroke.values();  // Get all enum constants
@@ -37,27 +39,36 @@ public class SwimTeam extends Thread {
 	      	int speed=(int)(Math.random() * (3)+30); //range of speeds 
 			swimmers[s] = new Swimmer(i,teamNo,locArr[i],finish,speed,strokes[s]); //hardcoded speed for now
 		}
-
-		 //Arrays.sort(swimmers, Comparator.comparingInt(swimmer -> swimmer.getSwimStroke().getOrder()));
-
-		for (int s = 0; s < sizeOfTeam; s++) {
+		//Initialize latches to sort swimmers in order of their events 
+		for (int i = 0; i < sizeOfTeam; i++) {
+            entranceLatches[i] = new CountDownLatch(1); // Each swimmer will wait for the previous swimmer
+        }
+		 
+		//Set Latches to notify swimmers of previous and next swimmer
+		for (int s = 0; s < sizeOfTeam; s++) {	
 			CountDownLatch prevLatch = (s == 0) ? null : latches[s]; // First swimmer doesn't wait
 			CountDownLatch nextLatch = (s == sizeOfTeam - 1) ? null : latches[s + 1]; // Last swimmer doesn't need to signal anyone
 			swimmers[s].setLatches(prevLatch, nextLatch);
+			 
 		}
-		for (int s=0;s<sizeOfTeam; s++) {
-			swimmers[s].setSwimPriority();
-			//swimmers[s].join();
-		}
+		
 	}
 	
 	
 	public void run() {
 		try {
-				// Start swimmer threads
+			// Set latches for each swimmer
+			for (int s = 0; s < sizeOfTeam; s++) {
+                CountDownLatch entryPrevLatch = (s == 0) ? null : entranceLatches[s - 1];
+                CountDownLatch entryNextLatch = (s == sizeOfTeam - 1) ? null : entranceLatches[s];
+                swimmers[s].setEntryLatches(entryPrevLatch, entryNextLatch);
+            }
+
+				
+			// Start swimmer threads
 				for (int s=0;s<sizeOfTeam; s++) {
 					swimmers[s].start();
-					//swimmers[s].join();
+					
 				}
 	
 				// Ensure all swimmer threads are completed

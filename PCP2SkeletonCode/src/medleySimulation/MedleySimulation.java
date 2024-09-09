@@ -11,7 +11,8 @@ import java.util.concurrent.CyclicBarrier;
 public class MedleySimulation {
 	static final int numTeams=10;
 	static CountDownLatch startingLatch = new CountDownLatch(1);
-	static CyclicBarrier swimBarrier;
+	static CyclicBarrier swimBarrier; 
+	 
 	
    	static int frameX=300; //frame width
 	static int frameY=600;  //frame height
@@ -88,7 +89,7 @@ public class MedleySimulation {
 //Main method - starts it all
 	public static void main(String[] args) throws InterruptedException {
 	
-		swimBarrier = new CyclicBarrier(numTeams);
+		swimBarrier = new CyclicBarrier(numTeams); // barrier to ensure all swimmers are at start before they swim
 	    finishLine = new FinishCounter(); //counters for people inside and outside club
 	 
 		stadiumGrid = new StadiumGrid(gridX, gridY, numTeams,finishLine); //setup stadium with size     
@@ -99,9 +100,9 @@ public class MedleySimulation {
 		for (int i=0;i<numTeams;i++) {
         	teams[i]=new SwimTeam(i, finishLine, peopleLocations);        	
 		}
+		
 		setupGUI(frameX, frameY);  //Start Panel thread - for drawing animation
 		
-		//start viewer thread
 		Thread view = new Thread(stadiumView); 
 		view.start();
        
